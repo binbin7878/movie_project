@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Index page{% endblock %}
+
+{% block content %}
+<style>
+	.card {
+		padding: 10px;		
+	}
+
+	.card h3 {
+		font-family: none;
+	}
+</style>
+
+<h2>예매</h2>
+
+<div style="display:flex;">
+	<div class="card" style="width:33%;">
+		<h3>영화</h3>
+		1<br>
+        2<br>
+        3<br>
+
+	</div>
+
+	<div class="card" style="width:33%;">
+		<h3>극장</h3>
+		강남<br>
+        강변<br>
+        건대입구<br>
+	</div>
+
+	<div class="card" style="width:33%;">
+		<h3>날짜</h3>
+    <h2>2023/10<br></h2>
+    1<br>
+    2<br>
+    3<br>
+	</div>
+
+    <div class="card" style="width:33%;">
+		<h3>시간</h3>
+    <h2>3관8층<br></h2>
+    08:30 | 12:10 | 13:25
+	</div>
+</div>
+{% endblock  %}

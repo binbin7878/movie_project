@@ -1,0 +1,11 @@
+DATABASES={
+    'default':{
+        'ENGINE':'django.db.backends.mysql',
+        'NAME':'movie',
+        'USER':'root',
+        'PASSWORD':'rootpw',
+        'HOST':'localhost',
+        'PORT':'3306',
+    }
+}
+SECRET_KEY='django-insecure-5%_tmum16uxj$w6!hl)pdu9-@_6#y34duj7y*gfebfht4qunfo'

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Index page{% endblock %}
+
+{% block content %}
+<style>
+	.card {
+		padding: 10px;		
+	}
+
+	.card h3 {
+		font-family: none;
+	}
+</style>
+
+<h2>무비 차트</h2>
+
+<div style="display:flex;">
+    <div class="row">
+	<div class="col-lg-3 col-md-6"> 
+        <div class="card text-center" style="width: 20rem;">
+        <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87433/87433_320.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h3><span class="card-title" style=" font: bold 1.0em/1em Georgia, serif ; color: black;">그대들은 어떻게<br>살것인가</span></h3>
+          <p class="card-text">줄거리~~~</p>
+          <a href="#" class="btn btn-primary">예매하기</a>
+        </div>
+        </div>
+      </div>
+    
+
+      <div class="col-lg-3 col-md-6">
+      <div class="card text-center " style="width: 20rem;">
+        <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87410/87410_320.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h3><span class="card-title" style=" font: bold 1.0em/1em Georgia, serif ; color: black;">용감한 시민 </span></h3>
+          <p class="card-text"><br>줄거리~~~</p>
+          <a href="#" class="btn btn-primary">예매하기</a>
+        </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+      <div class="card text-center" style="width: 20rem;">
+        <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87438/87438_320.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h3><span class="card-title" style=" font: bold 1.0em/1em Georgia, serif ; color: black;">오픈 더 도어 <br> </span></h3>
+          <p class="card-text"><br>줄거리~~~</p>
+          <a href="#" class="btn btn-primary">예매하기</a>
+        </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+      <div class="card text-center" style="width: 20rem;">
+        <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87407/87407_320.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h3><span class="card-title" style=" font: bold 1.0em/1em Georgia, serif ; color: black;">30일 <br> </span></h3>
+          <p class="card-text"><br>줄거리~~~</p>
+          <a href="#" class="btn btn-primary">예매하기</a>
+        </div>
+        </div>
+      </div>
+
+    </div>
+</div>
+{% endblock  %}
