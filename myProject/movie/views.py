@@ -13,6 +13,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserCreationMultiForm, ProfileForm
 from .models import Profile
 from django.http import JsonResponse
+import requests
+from bs4 import BeautifulSoup
+import re
 
 # Create your views here.
 def index(request):
@@ -73,4 +76,32 @@ class LogoutViews(LogoutView):
 def signout(request):
     auth.logout(request)
     return redirect('movie:home')
+
+def index(request):
+	url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'
+	headers = {
+		'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
+	}
+
+	response = requests.get(url, headers=headers)
+
+	soup = BeautifulSoup(response.text, 'lxml')
+
+	movieInfoList = soup.find('div', attrs={'class':'sect-movie-chart'}).find_all('li')
+
+	CGVInfoDto=[]
+
+	for movieInfo in movieInfoList:
+		movieRank = movieInfo.find('strong', attrs={'class':f'rank'}) #순위
+		movieImg = movieInfo.find('img') #이미지
+		movieTitle = movieInfo.find('strong', attrs={'class':'title'}) #제목
+		movieScore = movieInfo.find('strong', attrs={'class':'percent'}) #평점
+		opendate=movieInfo.find('span', attrs={'class':'txt-info'}).find('strong')#개봉일
+
+		CGVInfoDto=(movieRank.get_text(),movieImg['src'],movieTitle.get_text(),movieScore.get_text(),opendate.get_text().strip())
+
+		print(CGVInfoDto)
+
+	return render(request, 'index.html', {'CGVInfoDto': CGVInfoDto})
+    
 

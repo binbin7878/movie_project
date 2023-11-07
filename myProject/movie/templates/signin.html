@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +51,9 @@
                                 <button type="submit" class="form-control">Sign In</button>
                             </form>
                             {% load socialaccount %}
-                            <a class="nav-link" href="{% provider_login_url 'naver' %}"><img src="naver_login_image/btnG_complete.png" ></a>
+                            
+                            <a class="nav-link" href="{% provider_login_url 'naver' %}"><img src="{%static 'movie\naver_login_image\btnG_complete.png'%}" width="350" height="70">
+                            </a>
                             <hr>
                             <a href="{% url 'movie:signup' %}">
                                 <button type="submit" class="form-control">Sign Up</button>
