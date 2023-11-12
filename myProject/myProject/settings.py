@@ -16,7 +16,7 @@ import my_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+TEMPLATES_DIR=BASE_DIR/"templates"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -67,7 +67,7 @@ ROOT_URLCONF = 'myProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,12 +143,12 @@ AUTHENTICATION_BACKENDS = (
     # 'allauth' 특화 인증 방법, e-mail로 로그인 하는것 같은것 
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-LOGIN_URL='/signin/'
+LOGIN_URL='/'
 
 LOGIN_REDIRECT_URL='index'
 
 LOGOUT_REDIRECT_URL='signin'
 
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, '\movieproject-main\myProject\movie\static'),] 
 
