@@ -16,6 +16,7 @@ from django.http import JsonResponse
 import requests
 from bs4 import BeautifulSoup
 
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html', {'title':'data'})
@@ -76,41 +77,42 @@ def signout(request):
     auth.logout(request)
     return redirect('movie:home')
 
-# def movie_list(request):
-#     url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'
-#     headers = {
-#         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
-#     }
+def movielist(request):
+    url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
+    }
 
-#     response = requests.get(url, headers=headers)
-#     soup = BeautifulSoup(response.text, 'html.parser')
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-#     movies = soup.select('#contents > div.wrap-movie-chart > div.sect-movie-chart')
-#     rank = []
-#     image = []
-#     title = []
-#     rate = []
-#     open_date = []
+    movies = soup.select('#contents > div.wrap-movie-chart > div.sect-movie-chart')
+    rank = []
+    image = []
+    title = []
+    rate = []
+    open_date = []
 
-#     for movie in movies:
-#         a_rank = movie.select('ol > li > div.box-image > strong')
-#         a_image = movie.select('ol > li > div.box-image > a > span > img')
-#         a_title = movie.select('ol> li> div.box-contents > a > strong')
-#         a_rate = movie.select('ol > li > div.box-contents > div > strong > span ')
-#         a_open_date = movie.select('ol > li > div.box-contents > span.txt-info > strong ')
+    for movie in movies:
+        a_rank = movie.select('ol > li > div.box-image > strong')
+        a_image = movie.select('ol > li > div.box-image > a > span > img')
+        a_title = movie.select('ol> li> div.box-contents > a > strong')
+        a_rate = movie.select('ol > li > div.box-contents > div > strong > span ')
+        a_open_date = movie.select('ol > li > div.box-contents > span.txt-info > strong ')
 
-#     for i in range(0, len(a_rank)):
-#         rank.append(a_rank[i].getText())
-#         image.append(a_image[i]['src'])
-#         title.append(a_title[i].getText())
-#         rate.append(a_rate[i].getText())
-#         open_date.append(a_open_date[i].getText().replace('\r\n', '').strip().replace('\n', '').replace(' ', ''))
+    for i in range(0, len(a_rank)):
+        rank.append(a_rank[i].getText())
+        image.append(a_image[i]['src'])
+        title.append(a_title[i].getText())
+        rate.append(a_rate[i].getText())
+        open_date.append(a_open_date[i].getText().replace('\r\n', '').strip().replace('\n', '').replace(' ', ''))
 
-#     movieinfo = []
-#     for i in range(0, len(title)):
-#         movieinfo.append([rank[i], image[i], title[i], rate[i], open_date[i]])
+    movieinfo=[]
+    for i in range(0,len(title)):
+        movieinfo.append([rank[i],image[i],title[i],rate[i],open_date[i]])
 
-#     return render(request, 'movie_list.html', {'movieinfo': movieinfo})
+
+    return render(request, 'movielist.html', {'movieinfo':movieinfo})
 
 
     

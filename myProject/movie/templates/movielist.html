@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
+</head>
+<body>
+    <h1>Movie List</h1>
+            {% for movie in movieinfo %}
+            <ol>
+                <li>
+                    <div class="box-image">
+                        <strong class="rank">{{movie.0}}</strong>	
+                        <a href="/movies/detail-view/?midx=87662">
+                            <span class="thumb-image">
+                                <img src="{{movie.1}}" alt="{{movie.2}}">
+                            </span>
+                        </a>
+                        <span class="screentype">
+                        </span>
+                    </div>
+                    
+                    <div class="box-contents">
+                        <a>
+                            <strong class="title">{{movie.2}}</strong>
+                        </a>
+
+                        <div class="score">
+                            <strong class="percent">예매율<span>{{movie.3}}</span></strong>
+                            
+                        </div>
+
+                        <span class="txt-info">
+                            <strong>
+                                {{movie.4}}
+                            </strong>
+                        </span>
+                        <span class="like"> 
+                            <a class="link-reservation" href="/ticket/?MOVIE_CD=20034509&amp;MOVIE_CD_GROUP=20034509">예매</a>
+                        </span>
+                    </div>    
+                </li>
+            </ol>
+                
+            {% endfor %}
+    
+</body>
+</html>
