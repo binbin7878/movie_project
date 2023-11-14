@@ -19,10 +19,7 @@ from bs4 import BeautifulSoup
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html', {'title':'data'})
-
-def home(request):
-    return render(request, 'home.html', {'title':'home'})    
+    return render(request, 'index.html', {'title':'data'})  
 
 def board(request):
     return render(request, 'board.html', {'title':'board'})
@@ -63,7 +60,7 @@ def signin(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('movie:home')
+            return redirect('movie:index')
         else:
             return render(request, 'signin.html')
     else:
@@ -75,7 +72,7 @@ class LogoutViews(LogoutView):
 
 def signout(request):
     auth.logout(request)
-    return redirect('movie:home')
+    return redirect('movie:index')
 
 def movielist(request):
     url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'

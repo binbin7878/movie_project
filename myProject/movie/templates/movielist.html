@@ -1,49 +1,80 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie List</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333; /* 폰트 색상 */
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+            margin-bottom: 20px; /* 제목과 다음 요소 간 간격 조절 */
+        }
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* 각 영화 요소 사이의 간격 조절 */
+            justify-content: space-around;
+        }
+
+        .movie-item {
+            width: 18%; /* 한 줄에 5개씩 배치하려면 100%를 5등분한 값 */
+            box-sizing: border-box;
+            text-align: center;
+            margin: 1%;
+        }
+
+        .box-image img {
+            max-width: 100%;
+            height: auto;
+        }
+        .reserve-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px; /* 예매하기 버튼과 다음 요소 사이의 간격 조절 */
+        }
+        .rank, .rate, .opendate {
+            font-size: 16px;
+            color: #555; /* 폰트 색상 */
+        }
+    </style>
 </head>
 <body>
     <h1>Movie List</h1>
+    <div class="movie-container">
             {% for movie in movieinfo %}
-            <ol>
-                <li>
+            
+                <div class="movie-item">
                     <div class="box-image">
-                        <strong class="rank">{{movie.0}}</strong>	
-                        <a href="/movies/detail-view/?midx=87662">
-                            <span class="thumb-image">
-                                <img src="{{movie.1}}" alt="{{movie.2}}">
-                            </span>
-                        </a>
-                        <span class="screentype">
-                        </span>
+                        <img src="{{movie.1}}" alt="{{movie.2}}" width="100">
+                    </div>
+                    <div class="rank">
+                        <p>순위: {{movie.0}}</p>
+                    </div>
+                    <div class="rate">
+                        <p>예매율: {{movie.3}}</p>
+
+                    </div>
+                    <div class="opendate">
+                        <p>개봉일: {{movie.4}}</p>
+                        <button class="reserve-button" onclick="location.href='http://127.0.0.1:8000/movie/board/'">예매하기</button>
                     </div>
                     
-                    <div class="box-contents">
-                        <a>
-                            <strong class="title">{{movie.2}}</strong>
-                        </a>
-
-                        <div class="score">
-                            <strong class="percent">예매율<span>{{movie.3}}</span></strong>
-                            
-                        </div>
-
-                        <span class="txt-info">
-                            <strong>
-                                {{movie.4}}
-                            </strong>
-                        </span>
-                        <span class="like"> 
-                            <a class="link-reservation" href="/ticket/?MOVIE_CD=20034509&amp;MOVIE_CD_GROUP=20034509">예매</a>
-                        </span>
-                    </div>    
-                </li>
-            </ol>
-                
-            {% endfor %}
+                </div>
+                {% endfor %}
+        </div>        
     
 </body>
 </html>
+
+{% endblock  %}
