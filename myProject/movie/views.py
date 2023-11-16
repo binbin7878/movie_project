@@ -15,6 +15,8 @@ from movie.models import Profile
 from django.http import JsonResponse
 import requests
 from bs4 import BeautifulSoup
+import re
+
 
 
 # Create your views here.
@@ -89,6 +91,7 @@ def movielist(request):
     title = []
     rate = []
     open_date = []
+    url_number=[]
 
     for movie in movies:
         a_rank = movie.select('ol > li > div.box-image > strong')
@@ -104,12 +107,16 @@ def movielist(request):
         rate.append(a_rate[i].getText())
         open_date.append(a_open_date[i].getText().replace('\r\n', '').strip().replace('\n', '').replace(' ', ''))
 
+        match = re.search(r'/(\d{5})/', a_image[i]['src'][::-1])  # Reversed string to match from the end
+        url_number.append(match.group(1)[::-1] if match else None)
+
     movieinfo=[]
     for i in range(0,len(title)):
-        movieinfo.append([rank[i],image[i],title[i],rate[i],open_date[i]])
+        movieinfo.append([rank[i],image[i],title[i],rate[i],open_date[i],url_number[i]])
 
 
     return render(request, 'movielist.html', {'movieinfo':movieinfo})
+
 
 
     

@@ -3,46 +3,376 @@
 {% block title %}Index page{% endblock %}
 
 {% block content %}
-<style>
-	.card {
-		padding: 10px;		
-	}
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reset.css'%}">
+    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reserve.css'%}">
+    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\header.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' />
+    <script src='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js'></script>
+    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\material-design-iconic-font\css\material-design-iconic-font.min.css' %}">
+    <style>
+    * {
+    font-size: 11px;
+}
 
-	.card h3 {
-		font-family: none;
-	}
-</style>
+body {
+    background-color: #FDFCF0;
+}
 
-<h2>예매</h2>
 
-<div style="display:flex;">
-	<div class="card" style="width:33%;">
-		<h3>영화</h3>
-		1<br>
-        2<br>
-        3<br>
+/* header */
 
-	</div>
+.header-nav-wrapper {
+    background: url(../images/bg_header.gif) repeat-x 0 0;
+    background-position: center;
+    background-size: contain;
+    height: 120px;
+    padding-top: 4px;
+}
 
-	<div class="card" style="width:33%;">
-		<h3>극장</h3>
-		강남<br>
-        강변<br>
-        건대입구<br>
-	</div>
+.header-nav-container {
+    position: fixed;
+}
 
-	<div class="card" style="width:33%;">
-		<h3>날짜</h3>
-    <h2>2023/10<br></h2>
-    1<br>
-    2<br>
-    3<br>
-	</div>
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-right: 150px;
+}
 
-    <div class="card" style="width:33%;">
-		<h3>시간</h3>
-    <h2>3관8층<br></h2>
-    08:30 | 12:10 | 13:25
-	</div>
-</div>
+.header-inner {
+    display: flex;
+}
+
+.header-inner>div {
+    border-right: 1px solid #DDDDDD;
+    margin-left: 8px;
+    padding-right: 4px;
+}
+
+
+/* //header */
+
+
+/* nav */
+
+.nav-line {
+    background-color: red;
+    border-radius: 50px;
+    height: 5px;
+    /* background-image: linear-gradient(to right, white 33%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 15px 1px;
+  background-repeat: repeat-x; */
+}
+
+.nav-wrapper {
+    /* background: url(../images/bg_header.gif) repeat-x 0 0; */
+    /* width: 100%;*/
+    height: 94px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-content {
+    padding-top: 15px;
+}
+
+.movieLogo-wrapper {
+    text-align: center;
+}
+
+.cgvLogo {
+    width: 120px;
+    margin-left: 150px;
+    /* margin-right: -40px; */
+}
+
+.cgvMovie {
+    width: auto;
+    height: 28px;
+}
+
+.nav-inner {
+    display: flex;
+    /* margin-left: -250px; */
+    margin-left: 150px;
+    margin-right: auto;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.nav-inner>div>button {
+    padding-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.search-wrapper {
+    margin-left: 70px;
+    height: 20px;
+}
+
+.search-wrapper>input {
+    width: 100px;
+    height: 20px;
+}
+
+.searchButton {
+    margin: 0 !important;
+    padding: 2px !important;
+    background-color: red;
+    color: white;
+    width: 30px;
+    height: 100%;
+    font-size: 10px !important;
+}
+
+
+/* content */
+
+.reserve-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    height: 800px;
+    /* border: 1px solid #dddddd; */
+}
+
+.reserve-container>div {
+    border: 1px solid #dddddd;
+}
+
+.reserve-title {
+    border-bottom: 1px solid #dddddd;
+    background-color: #444444;
+    text-align: center;
+    color: #dddddd;
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.movie-part {
+    width: 284px;
+}
+
+.theater-part {
+    width: 264px;
+}
+
+.day-part {
+    width: 91px;
+}
+
+.time-part {
+    width: 384px;
+}
+
+.sort-wrapper {
+    margin: 10px 6px 6px 10px;
+    /* padding: 3px; */
+    display: flex;
+    border-bottom: 1px solid #dddddd;
+    font-size: 12px;
+}
+
+.sort-wrapper>div {
+    padding: 3px;
+}
+
+.sort-wrapper>div:hover {
+    border-bottom: 1px solid #111111;
+}
+
+.sort-selected {
+    font-weight: bold;
+    border-bottom: 1px solid #111111;
+}
+
+.sort-korean {
+    margin-left: 6px;
+}
+
+.reserve-date {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 770px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.movie-date-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 2px;
+}
+
+.movie-week-of-day {
+    margin-left: 5px;
+    font-size: 10px;
+    width: 12px;
+    height: 22px;
+    line-height: 22px;
+}
+
+.movie-day {
+    text-align: center;
+    width: 34px;
+    height: 22px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.saturday {
+    color: #31597E;
+    font-weight: bold;
+}
+
+.sunday {
+    color: #AF2D2D;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+
+<body>
+    
+    <div class="reserve-container">
+        <div class="movie-part">
+            <div class="reserve-title">영화</div>
+            <div class="sort-wrapper">
+                <div class="sort-rate sort-selected">예매율순</div>
+                <div class="sort-korean ">가나다순</div>
+            </div>
+            
+        </div>
+        <div class="theater-part">
+            <div class="reserve-title">극장</div>
+            <div></div>
+        </div>
+        <div class="day-part">
+            <div class="reserve-title">날짜 </div>
+            <div class="reserve-date"></div>
+        </div>
+        <div class="time-part">
+            <div class="reserve-title">시간</div>
+        </div>
+
+    </div>
+	<script>
+		// 현재 날짜를 가져옵니다.
+		const date = new Date();
+	
+		// 현재 월의 마지막 날짜를 계산합니다.
+		const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+	
+		// 예매 날짜를 출력할 요소를 선택합니다.
+		const reserveDate = document.querySelector(".reserve-date");
+	
+		// 요일 정보를 저장한 배열
+		const weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
+	
+		// 날짜 정보
+		const year = 2023; // 2023년으로 수정
+		const month = date.getMonth() + 1; // JavaScript에서 월은 0부터 시작하므로 1을 더합니다.
+	
+		// 현재 날짜부터 해당 월의 마지막 날짜까지 반복하여 날짜 버튼을 생성합니다.
+		for (let i = date.getDate(); i <= lastDay.getDate(); i++) {
+			// 버튼과 스팬 요소를 생성합니다.
+			const button = document.createElement("button");
+			const spanWeekOfDay = document.createElement("span");
+			const spanDay = document.createElement("span");
+	
+			// 클래스를 설정합니다.
+			button.classList = "movie-date-wrapper";
+			spanWeekOfDay.classList = "movie-week-of-day";
+			spanDay.classList = "movie-day";
+	
+			// 해당 날짜의 요일을 가져옵니다.
+			const dayOfWeek = weekOfDay[new Date(`${year}-${month}-${i}`).getDay()];
+	
+			// 토요일과 일요일일 경우 클래스를 추가합니다.
+			if (dayOfWeek === "토") {
+				spanWeekOfDay.classList.add("saturday");
+				spanDay.classList.add("saturday");
+			} else if (dayOfWeek === "일") {
+				spanWeekOfDay.classList.add("sunday");
+				spanDay.classList.add("sunday");
+			}
+	
+			// 요일 정보를 스팬에 설정합니다.
+			spanWeekOfDay.innerHTML = dayOfWeek;
+			button.append(spanWeekOfDay);
+	
+			// 날짜 정보를 스팬에 설정합니다.
+			spanDay.innerHTML = i;
+			button.append(spanDay);
+	
+			// 버튼을 예매 날짜 출력 요소에 추가합니다.
+			reserveDate.append(button);
+	
+			// 날짜 클릭 이벤트를 설정합니다.
+			dayClickEvent(button);
+		}
+	
+		// 날짜 클릭 이벤트 함수
+		function dayClickEvent(button) {
+			button.addEventListener("click", function() {
+				// 활성화된 날짜 버튼을 찾아서 클래스를 제거합니다.
+				const movieDateWrapperActive = document.querySelectorAll(".movie-date-wrapper-active");
+				movieDateWrapperActive.forEach((list) => {
+					list.classList.remove("movie-date-wrapper-active");
+				});
+	
+				// 현재 클릭된 날짜 버튼에 활성화 클래스를 추가합니다.
+				button.classList.add("movie-date-wrapper-active");
+			});
+		}
+        // sort-korean을 클릭할 때 가나다순으로 정렬하는 이벤트 리스너를 추가합니다.
+document.querySelector(".sort-korean").addEventListener("click", function() {
+    // 현재 예매 날짜를 가져옵니다.
+    const reserveDate = document.querySelector(".reserve-date");
+    // 날짜 버튼을 배열로 변환합니다.
+    const dateButtons = Array.from(reserveDate.querySelectorAll(".movie-date-wrapper"));
+
+    // 가나다순으로 정렬합니다.
+    const sortedButtons = dateButtons.sort((a, b) => {
+        const textA = a.querySelector(".movie-day").innerText;
+        const textB = b.querySelector(".movie-day").innerText;
+        return textA.localeCompare(textB, 'ko', { sensitivity: 'base' });
+    });
+
+    // 정렬된 버튼을 다시 예매 날짜 출력 요소에 추가합니다.
+    reserveDate.innerHTML = "";
+    sortedButtons.forEach((button) => {
+        reserveDate.append(button);
+        // 날짜 클릭 이벤트를 다시 설정합니다.
+        dayClickEvent(button);
+    });
+
+    // 현재 클릭된 정렬 버튼에 선택된 클래스를 추가합니다.
+    document.querySelector(".sort-korean").classList.add("sort-selected");
+    document.querySelector(".sort-rate").classList.remove("sort-selected");
+});
+
+
+
+	</script>
+	
+    
+</body>
 {% endblock  %}
