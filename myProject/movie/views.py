@@ -16,7 +16,11 @@ from django.http import JsonResponse
 import requests
 from bs4 import BeautifulSoup
 import re
-
+from django.core.files.base import ContentFile
+from PIL import Image
+from io import BytesIO
+from urllib.parse import urljoin
+from .models import Movieinfo
 
 
 # Create your views here.
@@ -24,7 +28,9 @@ def index(request):
     return render(request, 'index.html', {'title':'data'})  
 
 def board(request):
-    return render(request, 'board.html', {'title':'board'})
+    movies = Movieinfo.objects.all()
+
+    return render(request, 'board.html', {'movies': movies})
 
 
 
@@ -76,13 +82,15 @@ def signout(request):
     auth.logout(request)
     return redirect('movie:index')
 
+
+
 def movielist(request):
-    url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'
+    base_url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
     }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(base_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
 
     movies = soup.select('#contents > div.wrap-movie-chart > div.sect-movie-chart')
@@ -105,10 +113,15 @@ def movielist(request):
         image.append(a_image[i]['src'])
         title.append(a_title[i].getText())
         rate.append(a_rate[i].getText())
-        open_date.append(a_open_date[i].getText().replace('\r\n', '').strip().replace('\n', '').replace(' ', ''))
+        
+        match_date = re.search(r'(\d{4}\.\d{2}\.\d{2})', a_open_date[i].getText())
+        date_str = match_date.group(1).replace('.', '-') if match_date else None
+        open_date.append(date_str)
 
         match = re.search(r'/(\d{5})/', a_image[i]['src'][::-1])  # Reversed string to match from the end
         url_number.append(match.group(1)[::-1] if match else None)
+
+        
 
     movieinfo=[]
     for i in range(0,len(title)):

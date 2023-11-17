@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from betterforms.multiform import MultiModelForm
 from django import forms
 
+
 class Profile(models.Model):
     class Meta:
         verbose_name = 'Profile'
@@ -15,17 +16,23 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.nick
-class MovieInfo(models.Model):
-    moviename=models.CharField(max_length=20)
-    movieimg=models.ImageField(blank=True, upload_to="images", null=True)
-    movieopendate=models.DateField(auto_now=False, auto_now_add=False)
-    moviedirector=models.CharField(max_length=20)
-    mocieactor=models.CharField(max_length=20)
-    moviegenre=models.CharField(max_length=20)
-    movieinfo=models.CharField(max_length=30)
+    
+
+class Movieinfo(models.Model):
+    img=models.URLField()
+    title=models.CharField(max_length=50)
+    opendate=models.DateField()
+    image_url=models.CharField(max_length=10,primary_key=True)
 
     def __str__(self):
-        return self.moviename
+        return self.title
+    
+    def create_from_crawling(cls, img, title, opendate, image_url):
+        movieinfo = cls(img=img, title=title, opendate=opendate, image_url=image_url)
+        movieinfo.save()
+        return movieinfo
+
+
 
 
     
