@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'movie.apps.MovieConfig',
     'django.contrib.sites',
     'rest_framework',
+    'django_extensions',
 
     #allauth
     'allauth',
@@ -157,3 +158,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DATE_INPUT_FORMATS = ['%y-%m-%d']
 
+APPEND_SLASH=False

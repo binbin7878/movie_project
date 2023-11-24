@@ -11,6 +11,8 @@ import django
 django.setup()
 
 from movie.models import Movieinfo
+from django.db import IntegrityError
+from django.db import transaction
 
 
 def movie_crawl():
@@ -59,11 +61,16 @@ def movie_crawl():
             'opendate': open_date[i],
             'image_url': url_number[i],
         }
-        movieinfo.append(movie_data)
+        movieinfo.append(movie_data)            #{{이미지1,제목1,개봉일1,이미지주소1},{2,2,2,2,}}
 
-# 저장
+
     for data in movieinfo:
-        Movieinfo.objects.create(**data)
+        try:
+            Movieinfo.create_from_crawling(**data)
+        except IntegrityError as e:
+            print(f"Error saving data: {e}")
+movie_crawl()
+    
 
     
 

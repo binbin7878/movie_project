@@ -245,6 +245,21 @@ body {
     color: #AF2D2D;
     font-weight: bold;
 }
+.movie-list {
+    display: flex;
+    flex-wrap: wrap; /* 필요한 경우에만 줄 바꿈이 일어나도록 설정 */
+}
+
+.movie-list > div {
+    display: inline-block; /* 인라인 블록으로 설정하여 가로로 배열 */
+    white-space: nowrap;   /* 줄 바꿈 방지 */
+    overflow: hidden;      /* 내용이 넘칠 경우 숨김 처리 */
+    text-overflow: ellipsis; /* 넘칠 경우 생략 부호(...) 표시 */
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    /* 추가적인 스타일을 적용하고 싶다면 여기에 추가하세요. */
+}
 
     </style>
 </head>
@@ -256,125 +271,96 @@ body {
             <div class="reserve-title">영화</div>
             <div class="sort-wrapper">
                 <div class="sort-rate sort-selected">예매율순</div>
-                <div class="sort-korean ">가나다순</div>
-                
+                <div class="sort-korean">가나다순</div>
             </div>
-            {% for movie in movies|dictsort:"title" %}
-            <div>{{ movie.title }}</div>
-                {% endfor %}
-            
-            
+             <div class="movie-list-title-wrapper">
+                <div class="movie-list">
+                    
+                    
+                    
+                </div>
+            </div>
         </div>
         <div class="theater-part">
-            <div class="reserve-title">극장</div>
-            <div></div>
+            <div class="reserve-title">
+                극장
+            </div>
+            <div class="theater-container">
+                <div class="theater-wrapper">
+                    <div class="theater-location-wrapper">
+                        <button class="theater-location">서울(30)</button>
+                        <button class="theater-location">경기(43)</button>
+                        <button class="theater-location">인천(10)</button>
+                        <button class="theater-location">강원(5)</button>
+                    </div>
+                    <div class="theater-place-wrapper">
+                        <button class="theater-place">천호</button>
+                        <button class="theater-place">강변</button>
+                        <button class="theater-place">건대입구</button>
+                        <button class="theater-place">구로</button>
+                        <button class="theater-place">대학로</button>
+                        <button class="theater-place">동대문</button>
+                        <button class="theater-place">목동</button>
+                        <button class="theater-place">명동</button>
+                        <button class="theater-place">미아</button>
+                        <button class="theater-place">불광</button>
+                        <button class="theater-place">상봉</button>
+                        <button class="theater-place">송파</button>
+                        <button class="theater-place">수유</button>
+                        <button class="theater-place">압구정</button>
+                        <button class="theater-place">여의도</button>
+                        <button class="theater-place">영등포</button>
+                        <button class="theater-place">왕십리</button>
+                        <button class="theater-place">중계</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="day-part">
-            <div class="reserve-title">날짜 </div>
+            <div class="reserve-title">날짜</div>
             <div class="reserve-date"></div>
         </div>
         <div class="time-part">
             <div class="reserve-title">시간</div>
+            <div class="reserve-time">
+                <div class="reserve-where">4관(Laser) 6층(총 120석) </div>
+                <div class="reserve-time-wrapper">
+                    <button class="reserve-time-button">
+            <span class="reserve-time-want">12:20</span>
+            <span class="reserve-time-remain">120석</span>
+          </button>
+                    <button class="reserve-time-button">
+            <span class="reserve-time-want">14:20</span>
+            <span class="reserve-time-remain">120석</span>
+          </button>
+                    <button class="reserve-time-button">
+            <span class="reserve-time-want">16:20</span>
+            <span class="reserve-time-remain">120석</span>
+          </button>
+                    <button class="reserve-time-button">
+            <span class="reserve-time-want">18:20</span>
+            <span class="reserve-time-remain">120석</span>
+          </button>
+
+                </div>
+            </div>
+            <div>
+            <form class="moveSeatForm" action='\movie\reserve\' method="POST">
+                {% csrf_token %}
+            <input type="hidden" class="title" name="title">
+            
+            <input type="hidden" class="selectedTheater" name="selectedTheater">
+            <input type="hidden" class="reserveDate" name="movieDate">
+            <input type="hidden" class="runningTime" name="runningTime">
+            <button class="moveSeatButton" type="button" onclick="sendForm()">예약하기</button>
+            </form>
+            </div>
         </div>
 
     </div>
-	<script>
-		// 현재 날짜를 가져옵니다.
-		const date = new Date();
-	
-		// 현재 월의 마지막 날짜를 계산합니다.
-		const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-	
-		// 예매 날짜를 출력할 요소를 선택합니다.
-		const reserveDate = document.querySelector(".reserve-date");
-	
-		// 요일 정보를 저장한 배열
-		const weekOfDay = ["일", "월", "화", "수", "목", "금", "토"];
-	
-		// 날짜 정보
-		const year = 2023; // 2023년으로 수정
-		const month = date.getMonth() + 1; // JavaScript에서 월은 0부터 시작하므로 1을 더합니다.
-	
-		// 현재 날짜부터 해당 월의 마지막 날짜까지 반복하여 날짜 버튼을 생성합니다.
-		for (let i = date.getDate(); i <= lastDay.getDate(); i++) {
-			// 버튼과 스팬 요소를 생성합니다.
-			const button = document.createElement("button");
-			const spanWeekOfDay = document.createElement("span");
-			const spanDay = document.createElement("span");
-	
-			// 클래스를 설정합니다.
-			button.classList = "movie-date-wrapper";
-			spanWeekOfDay.classList = "movie-week-of-day";
-			spanDay.classList = "movie-day";
-	
-			// 해당 날짜의 요일을 가져옵니다.
-			const dayOfWeek = weekOfDay[new Date(`${year}-${month}-${i}`).getDay()];
-	
-			// 토요일과 일요일일 경우 클래스를 추가합니다.
-			if (dayOfWeek === "토") {
-				spanWeekOfDay.classList.add("saturday");
-				spanDay.classList.add("saturday");
-			} else if (dayOfWeek === "일") {
-				spanWeekOfDay.classList.add("sunday");
-				spanDay.classList.add("sunday");
-			}
-	
-			// 요일 정보를 스팬에 설정합니다.
-			spanWeekOfDay.innerHTML = dayOfWeek;
-			button.append(spanWeekOfDay);
-	
-			// 날짜 정보를 스팬에 설정합니다.
-			spanDay.innerHTML = i;
-			button.append(spanDay);
-	
-			// 버튼을 예매 날짜 출력 요소에 추가합니다.
-			reserveDate.append(button);
-	
-			// 날짜 클릭 이벤트를 설정합니다.
-			dayClickEvent(button);
-		}
-	
-		// 날짜 클릭 이벤트 함수
-		function dayClickEvent(button) {
-			button.addEventListener("click", function() {
-				// 활성화된 날짜 버튼을 찾아서 클래스를 제거합니다.
-				const movieDateWrapperActive = document.querySelectorAll(".movie-date-wrapper-active");
-				movieDateWrapperActive.forEach((list) => {
-					list.classList.remove("movie-date-wrapper-active");
-				});
-	
-				// 현재 클릭된 날짜 버튼에 활성화 클래스를 추가합니다.
-				button.classList.add("movie-date-wrapper-active");
-			});
-		}
-        // sort-korean을 클릭할 때 가나다순으로 정렬하는 이벤트 리스너를 추가합니다.
-document.querySelector(".sort-korean").addEventListener("click", function() {
-    
-    // 현재 예매 날짜를 가져옵니다.
-    const reserveDate = document.querySelector(".reserve-date");
-    // 날짜 버튼을 배열로 변환합니다.
-    const dateButtons = Array.from(reserveDate.querySelectorAll(".movie-date-wrapper"));
-
-    // 가나다순으로 정렬합니다.
-    const sortedButtons = dateButtons.sort((a, b) => {
-        const textA = a.querySelector(".movie-day").innerText;
-        const textB = b.querySelector(".movie-day").innerText;
-        return textA.localeCompare(textB, 'ko', { sensitivity: 'base' });
-    });
-
-    // 정렬된 버튼을 다시 예매 날짜 출력 요소에 추가합니다.
-    reserveDate.innerHTML = "";
-    sortedButtons.forEach((button) => {
-        reserveDate.append(button);
-        // 날짜 클릭 이벤트를 다시 설정합니다.
-        dayClickEvent(button);
-    });
-
-    // 현재 클릭된 정렬 버튼에 선택된 클래스를 추가합니다.
-    document.querySelector(".sort-korean").classList.add("sort-selected");
-    document.querySelector(".sort-rate").classList.remove("sort-selected");
-});
-
+	<script src="{% static 'C:\movieproject-main\myProject\movie\static\movie\js\reserve.js' %}">
+        
+        
 
 
 	</script>

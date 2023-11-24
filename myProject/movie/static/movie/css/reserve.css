@@ -326,6 +326,10 @@ body {
     align-items: center;
     margin-top: 10px;
 }
+.movie-title-button-active {
+    background-color: #333333; /* 원하는 배경색으로 변경하세요 */
+    color: white; /* 텍스트 색상을 원하는 색상으로 변경하세요 */
+  }
 
 .movie-list-age {
     width: 24px;
@@ -373,6 +377,9 @@ body {
     padding: 6px 4px;
     margin-left: 5px;
     font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
 }
 
 .movie-list-title-active {

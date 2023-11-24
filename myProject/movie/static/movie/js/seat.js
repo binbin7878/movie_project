@@ -48,10 +48,10 @@ const ticketNumber = document.querySelector('.ticketNumber');
 const selectedSeat = document.querySelector('.selectedSeat');
 
 toastr.options = {
-    positionClass: 'toast-top-right',
+    positionClass: 'toast-top-full-width',
     progressBar: true,
     timeOut: 1000,
-    preventDuplicates: true,
+    
 };
 
 //버튼클릭시 다른 class 추가 초기화해주기
@@ -88,7 +88,7 @@ function selectListUiFunction(selectSeatListUlActive) {
     selectSeatListUlActive.forEach(li => {
         if (li.parentNode.classList.contains('select-seat-ul-normal')) {
             normalNumber = Number(li.innerHTML);
-            normalMoney = 11000 * normalNumber;
+            normalMoney = 15000 * normalNumber;
             allMoney = normalMoney + teenMoney + oldMoney;
             allNumber = normalNumber + teenNumber + oldNumber;
             ticketPrice.innerHTML = allMoney + '원';
@@ -102,7 +102,7 @@ function selectListUiFunction(selectSeatListUlActive) {
             }
         } else if (li.parentNode.classList.contains('select-seat-ul-teen')) {
             teenNumber = Number(li.innerHTML);
-            teenMoney = 8000 * teenNumber;
+            teenMoney = 10000 * teenNumber;
             allMoney = normalMoney + teenMoney + oldMoney;
             allNumber = normalNumber + teenNumber + oldNumber;
             ticketPrice.innerHTML = allMoney + '원';

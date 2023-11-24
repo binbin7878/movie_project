@@ -10,9 +10,10 @@ const inputReserveDate = document.querySelector('.reserveDate');
 const inputRunningTime = document.querySelector('.runningTime');
 const moveSeatForm = document.querySelector('.moveSeatForm');
 const moveSeatButton = document.querySelector('.moveSeatButton');
-const movieAge = document.querySelector('.movieAge');
 
-let movieListAge = '';
+
+
+
 let year = 0;
 let month = 0;
 add();
@@ -24,52 +25,121 @@ document.addEventListener('DOMContentLoaded', () => {
 // 데이터 가져오기
 function add() {
     $.ajax({
-        url: 'crawling.do',
+        url: '/movie/get_movies/',  // Django에서 추가한 API URL
         type: 'get',
         success: function(data) {
-            crawlingData = setData(data);
-            // console.log(crawlingData);
-            // document.querySelector('.movie-list-wrapper').append(crawlingData);
-            //            poster.setAttribute('src', crawlingData[randomNumber].img)crawlingData;
-            setList(data);
-            movieListAge = document.querySelectorAll('.movie-list-age');
-            movieListAge.forEach(li => {
-                if (li.innerHTML === '15세 이상') {
-                    li.classList.add('fifteen');
-                } else if (li.innerHTML === '청소년 관람불가') {
-                    li.classList.add('eighteen');
-                    li.innerHTML = '청불';
-                } else if (li.innerHTML === '전체') {
-                    li.classList.add('all');
-                }
-            });
-            if (crawlingData.length === 0) {
-                location.href = 'moveReserve.do';
-            }
-            document.querySelectorAll('.movie-list-title').forEach(li => {
-                li.addEventListener('click', function() {
-                    const movieListTitleActvie = document.querySelectorAll(
-                        '.movie-list-title-active'
-                    );
-                    movieListTitleActvie.forEach(li => {
-                        li.classList.remove('movie-list-title-active');
-                    });
-                    li.parentNode.classList.add('movie-list-title-active');
-                    console.log(li.innerHTML);
-                    console.log(li.parentElement);
-                    console.log(li.parentElement.childNodes[1].innerHTML);
-                    //form에 넘기기 위한
-                    movieAge.value = li.parentElement.childNodes[1].innerHTML;
-                    inputTitle.value = li.innerHTML;
-                });
-            });
+            // 여기서 data를 활용하여 필요한 처리를 수행
+            console.log(data);
+
+            // 예시: 영화 제목을 출력하는 함수 호출
+            displayMovieTitles(data);
+
+            
         },
         error: function() {
-            document.querySelector('.movie-list-wrapper').innerHTML =
-                '데이터가없습니다 새로고침해주세요';
+            // 에러 처리
+            console.error('데이터를 가져오는 데 실패했습니다.');
         },
+        
     });
 }
+
+
+
+// 예시: 영화 제목을 출력하는 함수
+function displayMovieTitles(data) {
+    const movieTitleWrapper = document.querySelector('.movie-list-title-wrapper');
+
+    movieTitleWrapper.innerHTML = '';
+
+    if (data && data.movies && Array.isArray(data.movies)) {
+        const compareByTitle = (a, b) => a.title.localeCompare(b.title);
+        const sortedMovies = data.movies.slice().sort(compareByTitle);
+
+        sortedMovies.forEach(movie => {
+            const buttonWrapper = document.createElement('div');
+            buttonWrapper.classList.add('movie-list-title'); // 부모 div에 클래스 추가
+
+            const button = document.createElement('button');
+            button.classList.add('movie-title-button');
+            button.innerText = movie.title;
+
+            buttonWrapper.appendChild(button);
+            movieTitleWrapper.appendChild(buttonWrapper);
+
+            // 클릭 이벤트를 바로 설정
+            button.addEventListener('click', function () {
+                handleMovieTitleClick(button, movie);
+            });
+        });
+
+        // 정렬 버튼 추가
+        const sortWrapper = document.querySelector('.sort-wrapper');
+        sortWrapper.innerHTML = `
+            <div class="sort-rate">예매율순</div>
+            <div class="sort-korean sort-selected">가나다순</div>
+        `;
+
+        // 정렬 버튼 클릭 이벤트 처리
+        const sortButtons = document.querySelectorAll('.sort-wrapper div');
+        sortButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // 클릭한 버튼에 대한 정렬 처리
+                const sortBy = button.classList.contains('sort-rate') ? '예매율순' : '가나다순';
+                console.log(`정렬 기준: ${sortBy}`);
+
+                sortedMovies.sort(compareByTitle);
+
+                movieTitleWrapper.innerHTML = '';
+
+                sortedMovies.forEach(movie => {
+                    const buttonWrapper = document.createElement('div');
+                    buttonWrapper.classList.add('movie-list-title'); // 부모 div에 클래스 추가
+
+                    const button = document.createElement('button');
+                    button.classList.add('movie-title-button');
+                    button.innerText = movie.title;
+
+                    buttonWrapper.appendChild(button);
+                    movieTitleWrapper.appendChild(buttonWrapper);
+
+                    // 클릭 이벤트를 바로 설정
+                    button.addEventListener('click', function () {
+                        handleMovieTitleClick(button, movie);
+                    });
+                });
+
+                sortButtons.forEach(btn => {
+                    btn.classList.remove('sort-selected');
+                });
+                button.classList.add('sort-selected');
+            });
+        });
+    } else {
+        console.error('올바른 데이터를 가져오지 못했습니다.');
+    }
+}
+
+// 영화 제목이 클릭되었을 때 처리하는 함수
+function handleMovieTitleClick(button, movie) {
+    const movieTitleButtons = document.querySelectorAll('.movie-title-button');
+    movieTitleButtons.forEach(btn => {
+        btn.classList.remove('movie-title-button-active');
+    });
+    button.classList.add('movie-title-button-active');
+    console.log(button.innerText);
+    console.log(movie.title);
+    
+    // form에 넘기기 위한
+    
+    inputTitle.value = button.innerText;
+
+}
+
+
+
+
+
 
 function setData(data) {
     data = JSON.parse(data);
@@ -87,34 +157,33 @@ function setList(data) {
     }, ' ');
 }
 
-function getMovieList(item) {
-    console.log(item);
-    return `<div class="movie-list">
-    <div class="movie-list-age">${item.movieAge}</div>
-    <button class="movie-list-title">${item.movieTitle}</button>
-</div>`;
-}
+
 
 function addDate() {
     const weekOfDay = ['일', '월', '화', '수', '목', '금', '토'];
-    year = date.getFullYear();
-    month = date.getMonth();
-    reserveDate.append(year + '/' + month);
-    for (i = date.getDate(); i <= lastDay.getDate(); i++) {
+    const date = new Date(); // 현재 날짜를 가져옵니다.
+    const year = date.getFullYear(); // 현재 연도를 가져옵니다.
+    const month = date.getMonth() + 1; // 현재 월을 가져오고 1을 더합니다.
+    const reserveDate = document.querySelector('.reserve-date');
+
+    // 년도와 월 표시
+    const yearMonthTitle = document.createElement('div');
+    yearMonthTitle.classList = 'year-month-title';
+    yearMonthTitle.innerHTML = `${year}/${month}`;
+    reserveDate.append(yearMonthTitle);
+
+    for (let i = 0; i < 30; i++) {
+        const currentDate = new Date(year, month - 1, date.getDate() + i);
         const button = document.createElement('button');
         const spanWeekOfDay = document.createElement('span');
         const spanDay = document.createElement('span');
 
-        //class넣기
         button.classList = 'movie-date-wrapper';
         spanWeekOfDay.classList = 'movie-week-of-day';
         spanDay.classList = 'movie-day';
 
-        //weekOfDay[new Date(2020-03-날짜)]
-        const dayOfWeek =
-            weekOfDay[new Date(year + '-' + month + '-' + i).getDay()];
+        const dayOfWeek = weekOfDay[currentDate.getDay()]; // 현재 날짜의 요일을 가져옵니다.
 
-        //요일 넣기
         if (dayOfWeek === '토') {
             spanWeekOfDay.classList.add('saturday');
             spanDay.classList.add('saturday');
@@ -124,16 +193,20 @@ function addDate() {
         }
         spanWeekOfDay.innerHTML = dayOfWeek;
         button.append(spanWeekOfDay);
-        //날짜 넣기
-        spanDay.innerHTML = i;
+
+        spanDay.innerHTML = currentDate.getDate();
         button.append(spanDay);
-        //button.append(i);
 
         reserveDate.append(button);
 
         dayClickEvent(button);
     }
 }
+
+
+
+
+
 
 function dayClickEvent(button) {
     button.addEventListener('click', function() {
@@ -158,6 +231,7 @@ function dayClickEvent(button) {
     });
 }
 
+
 theaterPlace.forEach(list => {
     list.addEventListener('click', function() {
         const theaterPlaceWrapper = document.querySelectorAll(
@@ -171,6 +245,7 @@ theaterPlace.forEach(list => {
         inputSelectedTheater.value = list.innerHTML;
     });
 });
+
 
 reserveTimeWant.forEach(list => {
     list.addEventListener('click', function() {
@@ -205,3 +280,19 @@ moveSeatButton.addEventListener('click', function() {
         );
     }
 });
+
+function sendForm(){
+    var title=document.querySelector('.movie-title-button').innerText;
+    var selectedTheater=document.querySelector('.theater-place:first-child').innerText;
+    var reserveDate=document.querySelector('.movie-date-wrapper').value;
+    var runningTime=document.querySelector('.runningTime').value;
+
+    var form=document.querySelector('.movieSeatForm');
+
+    form.querySelector('.title').value = title;
+    form.querySelector('.selectedTheater').value = selectedTheater;
+    form.querySelector('.movieDate').value = reserveDate;
+    form.querySelector('.runningTime').value = runningTime;
+
+    form.submit();
+}

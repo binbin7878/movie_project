@@ -21,6 +21,12 @@ from PIL import Image
 from io import BytesIO
 from urllib.parse import urljoin
 from .models import Movieinfo
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http import HttpResponse
+
+
+
 
 
 # Create your views here.
@@ -31,6 +37,11 @@ def board(request):
     movies = Movieinfo.objects.all()
 
     return render(request, 'board.html', {'movies': movies})
+def reserve(request):
+    return render(request, 'reserve.html')
+
+def mypage(request):
+    return render(request,'mypage.html')
 
 
 
@@ -130,7 +141,47 @@ def movielist(request):
 
     return render(request, 'movielist.html', {'movieinfo':movieinfo})
 
+@api_view(['GET'])
+def get_movies(request):
+    movies = Movieinfo.objects.all()
+    movie_list = []
+
+    for movie in movies:
+        movie_data = {
+            'title': movie.title,
+            'image_url': movie.image_url,
+            'opendate': movie.opendate,
+        }
+        movie_list.append(movie_data)
+
+    return Response({'movies': movie_list})
 
 
-    
+def reserve_view(request):
+    if request.method == 'POST':
+        # POST 데이터에서 필요한 값들을 가져옴
+        title = request.POST.get('title','')
+        selected_theater = request.POST.get('selectedTheater','')
+        reserve_date = request.POST.get('movieDate','')
+        running_time = request.POST.get('runningTime','')
+        if '.' in reserve_date:
+            reserve_date = reserve_date.split('.')[2]
+
+        
+
+        # 이후 처리를 여기에 추가
+
+        context={
+            'title':title,
+            'selected_theater':selected_theater,
+            'reserve_date':reserve_date,
+            'running_time':running_time,
+        }
+
+        return render(request,'reserve.html',context)
+
+       
+
+    return render(request, 'reserve.html')
+
 
