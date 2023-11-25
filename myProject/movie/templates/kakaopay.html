@@ -1,0 +1,66 @@
+
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>kakao</title>
+</head>
+<body>
+    <div id="seatForm"
+         data-title="{{ title }}"
+         data-payMoney="{{ payMoney }}"
+         data-ticketNumber="{{ ticketNumber }}"
+         data-movieDate="{{ movieDate }}"
+         data-selectedSeat="{{ selectedSeat }}"
+         data-selectedTheater="{{ selectedTheater }}">
+    </div>
+   <!-- kakaopay.html 템플릿 일부 -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script>
+    const userCode = "imp14397622";
+    IMP.init(userCode);
+    $(function () {
+        var $form = $('#seatForm');
+        var params = {
+                title: $form.data('title'),
+                payMoney: $form.data('payMoney'),
+                ticketNumber: $form.data('ticketNumber'),
+                movieDate: $form.data('movieDate'),
+                selectedSeat: $form.data('selectedSeat'),
+                selectedTheater: $form.data('selectedTheater'),
+            };
+            IMP.request_pay({
+                pg: 'kakaopay',
+                pay_method: 'card',
+                merchant_uid: 'test_lpdzvbw1' + new Date().getTime(),
+                name: 'CGB',
+                amount: '{{ payMoney }}',
+                m_redirect_url: 'http://127.0.0.1:8000/movie/mypage',
+            },
+            function (response_data) {
+                console.log('response_data :', response_data);
+                if (!response_data.success) {
+                    alert(response_data.error_msg + "(" + response_data.error_code + ")");
+                    location.href = '{% url "movie:board" %}';
+                } else {
+                    $.each(response_data, function (key, value) {
+                        $form.find("input[name=" + key + "]").val(value);
+                    });
+                    $form.submit();
+                    location.href="{%url 'movie:mypage' %}";
+                }
+            });
+        
+    });
+</script>
+
+     
+ 
+</body>
+</html>
+
+{% endblock %}

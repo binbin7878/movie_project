@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}결제 완료{% endblock %}
+
+{% block content %}
+
+
+{% load static %}
+
+<h1>Payment Complete</h1>
+<p>Received data: {{ received_data }}</p>
+{% if everythings_fine %}
+  <p>결제가 완료되었습니다.</p>
+{% else %}
+  <p>결제에 실패하였습니다.</p>
+{% endif %}
+
+
+{% endblock %}

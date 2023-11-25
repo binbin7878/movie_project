@@ -146,9 +146,9 @@ AUTHENTICATION_BACKENDS = (
 )
 LOGIN_URL='/'
 
-LOGIN_REDIRECT_URL='index'
+LOGIN_REDIRECT_URL='/index/'
 
-LOGOUT_REDIRECT_URL='signin'
+LOGOUT_REDIRECT_URL='/signin/'
 
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, '\movieproject-main\myProject\movie\static'),] 

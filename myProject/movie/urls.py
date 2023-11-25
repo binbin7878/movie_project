@@ -16,4 +16,7 @@ urlpatterns = [
     path('get_movies/', get_movies, name='get_movies'),
     path('reserve/',views.reserve_view, name='reserve'),
     path('mypage/', views.mypage, name='mypage'),
+    path('kakaopay/', views.kakaopay, name='kakaopay'),
+    
+    
 ]

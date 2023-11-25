@@ -36,17 +36,22 @@ class Movieinfo(models.Model):
         return movieinfo
 
 class MovieReserve(models.Model):
-    id=models.CharField(max_length=100,primary_key=True)
+    id=models.AutoField(primary_key=True)
+    user_id=models.ForeignKey(Profile,on_delete=models.CASCADE,default=None, null=True)
     title=models.CharField(max_length=200)
     movie_date=models.CharField(max_length=15)
     reserve_date=models.CharField(max_length=15)
     selected_seat=models.CharField(max_length=100)
     selected_theater=models.CharField(max_length=100)
+    img_code=models.ForeignKey(Movieinfo,on_delete=models.CASCADE,default=None, null=True)
+    payMoney=models.CharField(max_length=100,default='')
+    running_time=models.CharField(max_length=10,default=None,null=True)
+    
     
 
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
     

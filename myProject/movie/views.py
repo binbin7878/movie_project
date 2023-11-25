@@ -24,6 +24,8 @@ from .models import Movieinfo
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
+from .models import MovieReserve
+from django.utils import timezone
 
 
 
@@ -41,7 +43,14 @@ def reserve(request):
     return render(request, 'reserve.html')
 
 def mypage(request):
-    return render(request,'mypage.html')
+    if request.user.is_authenticated:
+        user_id = request.user.username  # 현재 로그인한 사용자의 ID를 가져옴
+        movie_reserves = MovieReserve.objects.filter(user_id__user__username=user_id)
+
+        return render(request, 'mypage.html', {'movie_reserves': movie_reserves})
+    else:
+        # 로그인되어 있지 않은 경우 로그인 페이지로 리다이렉트
+        return redirect('movie:login')
 
 
 
@@ -183,5 +192,102 @@ def reserve_view(request):
        
 
     return render(request, 'reserve.html')
+
+
+def kakaopay(request):
+    if request.method=='POST':
+        title = request.POST.get('title','')
+        selected_theater = request.POST.get('selectedTheater','')
+        reserve_date = request.POST.get('movieDate','')
+        running_time = request.POST.get('runningTime','')
+        selectedSeat=request.POST.get('selectedSeat','')
+        ticketNumber=request.POST.get('ticketNumber','')
+        payMoney=request.POST.get('payMoney','')
+
+        user_profile = request.user.profile if hasattr(request.user, 'profile') else None
+        current_datetime = timezone.now().date()
+
+        movie_reserve = MovieReserve(
+            user_id=user_profile,  # 이 부분은 로그인한 사용자의 ID로 저장하는 것으로 가정합니다.
+            title=title,
+            movie_date=reserve_date,  # 이 부분은 수정이 필요할 수 있습니다.
+            reserve_date=current_datetime,
+            selected_seat=selectedSeat,
+            selected_theater=selected_theater,
+            img_code=None,  # 이 부분은 수정이 필요할 수 있습니다.
+            payMoney=payMoney,
+            running_time=running_time,
+        )
+        movie_reserve.save()
+
+        
+
+
+        return render(request, 'kakaopay.html', {
+            'title': title,
+            'selectedTheater': selected_theater,
+            'reserve_date': reserve_date,
+            'running_time': running_time,
+            'selectedSeat': selectedSeat,
+            'ticketNumber': ticketNumber,
+            'payMoney': payMoney,
+        })    
+    
+    return render(request,'kakaopay.html')
+
+# def kakao_pay(request):
+#     if request.method == "POST":
+#         title = request.POST.get('title','')
+#         selected_theater = request.POST.get('selectedTheater','')
+#         reserve_date = request.POST.get('movieDate','')
+#         running_time = request.POST.get('runningTime','')
+#         selectedSeat=request.POST.get('selectedSeat','')
+#         ticketNumber=request.POST.get('ticketNumber','')
+#         payMoney=request.POST.get('payMoney','')
+
+
+#         data={
+#             'title':title,
+#             'selected_theater':selected_theater,
+#             'reserve_date':reserve_date,
+#             'running_time':running_time,
+#             'selectedSeat':selectedSeat,
+#             'ticketNumber':ticketNumber,
+#             'payMoney':payMoney,
+#         }
+#         _admin_key='51f930ad1470a5342ab4dcbb09979909'
+#         URL = 'https://kapi.kakao.com/v1/payment/ready'
+#         headers = {
+#             "Authorization": f"KakaoAK{_admin_key}",   # 변경불가
+#             "Content-type": "application/x-www-form-urlencoded;charset=utf-8",  # 변경불가
+#         }
+#         params = {
+#             "cid": "TC0ONETIME",    # 테스트용 코드
+#             "partner_order_id": reserve_date+'/'+running_time,     # 주문번호
+#             "partner_user_id": User.username,    # 유저 아이디
+#             "item_name": title,        # 구매 물품 이름
+#             "quantity": ticketNumber,                # 구매 물품 수량
+#             "total_amount": payMoney,        # 구매 물품 가격
+#             "tax_free_amount": "0",         # 구매 물품 비과세
+#             "approval_url": "http://127.0.0.1:8000/movie/complete/",
+#             "cancel_url": "http://127.0.0.1:8000/movie/board/",
+#             "fail_url": "http://127.0.0.1:8000/movie/index/",
+#         }
+
+#         res = requests.post(URL, headers=headers, params=params, data=data)
+#         result=res.json()
+#         request.session['tid'] = result['tid']      # 결제 승인시 사용할 tid를 세션에 저장
+#         next_url = result['next_redirect_pc_url']   # 결제 페이지로 넘어갈 url을 저장
+#         return redirect(next_url)
+    
+#     return render(request, 'kakaopay.html')
+
+
+    
+
+
+
+
+
 
 

@@ -302,3 +302,25 @@ reserveButton.addEventListener('click', function() {
         alert('좌석을 모두선택해 주세요!');
     }
 });
+
+function sendPay(){
+    var title=document.querySelector('.title').innerText;
+    var selectedTheater=document.querySelector('.selectedTheater:first-child').innerText;
+    var reserveDate=document.querySelector('.movieDate').value;
+    var runningTime=document.querySelector('.runningTime').value;
+    var ticketNumber=document.querySelector('.ticketNumber').value;
+    var selectedSeat=document.querySelector('.selectedSeat').value;
+    var payMoney=document.querySelector('.payMoney').value;
+
+    var form=document.querySelector('.SeatForm');
+
+    form.querySelector('.title').value = title;
+    form.querySelector('.selectedTheater').value = selectedTheater;
+    form.querySelector('.movieDate').value = reserveDate;
+    form.querySelector('.runningTime').value = runningTime;
+    form.querySelector('.ticketNumber').value=ticketNumber;
+    form.querySelector('.selectedSeat').value=selectedSeat;
+    form.querySelector('.payMoney').value=payMoney;
+
+    form.submit();
+}
