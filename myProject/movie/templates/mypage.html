@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Index page{% endblock %}
+{% block title %}My_Reserve_Page{% endblock %}
 
 {% block content %}
 
@@ -36,11 +36,32 @@
                     {% for reserve in movie_reserves %}
                         <div class="movie-reserve">
                             <div class="movie-reserve-title">{{ reserve.title }}</div>
-                            <div class="movie-reserve-theater">{{ reserve.selected_theater }}</div>
-                            <div class="movie-reserve-date">{{ reserve.movie_date }}</div>
-							<div class="movie-reserve-seat>">{{ reserve.selected_seat }}</div>
-							<div class="movie-reserve-payMoney">{{ reserve.payMoney }}</div>
-							<div class="movie-reserve-runningtime">{{ reserve.running_time }}</div>
+                            <div class="movie-reserve-theater-wrapper">{{ reserve.selected_theater }}</div>
+                            
+							<div class="movie-reserve-seats">{{ reserve.selected_seat }}</div>
+							
+                            <div class="movie-reserve-date-wrapper">
+                                <div class="movie-reserve-date">{{ reserve.movie_date }}</div>
+							    <div class="movie-reserve-runningTime">{{ reserve.running_time }}</div>
+                            </div>
+                            
+                            <div class="pay-information-wrapper">
+                                <div class="pay-information-date-wrapper">
+                                    <div class="pay-information-date-title">결제한 날</div>
+                                    <div class="pay-information-date">{{ reserve.reserve_date }}</div>
+                                </div>
+    
+                                <div class="pay-information-money-wrapper">
+                                    <div class="pay-information-money-title">결제한 비용</div>
+                                    <div class="pay-information-money">{{ reserve.payMoney }}원</div>
+                                </div>
+    
+                                <div class="barcode-wrapper">
+                                    <div>CGB</div>
+                                    <img src="{%static 'C:\movieproject-main\myProject\movie\static\movie\images\barcode.png' %}">
+                                </div>
+    
+                            </div>
                             <!-- 필요한 다른 정보들도 추가할 수 있습니다. -->
                         </div>
                     {% endfor %}
