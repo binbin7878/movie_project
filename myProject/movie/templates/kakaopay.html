@@ -1,38 +1,43 @@
-
 {% block content %}
 {% load static %}
 
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>kakao</title>
+    <meta charset="UTF-8">
+    <title>kakao</title>
 </head>
+
 <body>
-    <div id="seatForm"
-         data-title="{{ title }}"
-         data-payMoney="{{ payMoney }}"
-         data-ticketNumber="{{ ticketNumber }}"
-         data-movieDate="{{ movieDate }}"
-         data-selectedSeat="{{ selectedSeat }}"
-         data-selectedTheater="{{ selectedTheater }}">
+    <div id="seatForm" data-title="{{ title }}" data-payMoney="{{ payMoney }}" data-ticketNumber="{{ ticketNumber }}"
+        data-reserve_date="{{ reserve_date }}" data-selectedSeat="{{ selectedSeat }}" data-running_time="{{ running_time }}"
+        
+        data-selectedTheater="{{ selectedTheater }}">
     </div>
-   <!-- kakaopay.html 템플릿 일부 -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script>
-    const userCode = "imp14397622";
-    IMP.init(userCode);
-    $(function () {
-        var $form = $('#seatForm');
-        var params = {
+
+
+    <!-- kakaopay.html 템플릿 일부 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script>
+
+        const userCode = "imp14397622";
+        IMP.init(userCode);
+        $(function () {
+            var $form = $('#seatForm');
+            console.log('movieDate:', $form.data('movieDate'));
+            var params = {
                 title: $form.data('title'),
-                payMoney: $form.data('payMoney'),
-                ticketNumber: $form.data('ticketNumber'),
-                movieDate: $form.data('movieDate'),
-                selectedSeat: $form.data('selectedSeat'),
-                selectedTheater: $form.data('selectedTheater'),
+                payMoney: $form.data('paymoney'),  // 소문자로 수정
+                ticketNumber: $form.data('ticketnumber'),  // 소문자로 수정
+                reserve_date: $form.data('reserve_date'),  // 소문자로 수정
+                running_time: $form.data('running_time'),
+                selectedSeat: $form.data('selectedseat'),  // 소문자로 수정
+                selectedTheater: $form.data('selectedtheater'),
             };
+            console.log($form.html());
+
             IMP.request_pay({
                 pg: 'kakaopay',
                 pay_method: 'card',
@@ -41,26 +46,49 @@
                 amount: '{{ payMoney }}',
                 m_redirect_url: 'http://127.0.0.1:8000/movie/mypage',
             },
-            function (response_data) {
-                console.log('response_data :', response_data);
-                if (!response_data.success) {
-                    alert(response_data.error_msg + "(" + response_data.error_code + ")");
-                    location.href = '{% url "movie:board" %}';
-                } else {
-                    $.each(response_data, function (key, value) {
-                        $form.find("input[name=" + key + "]").val(value);
-                    });
-                    $form.submit();
-                    location.href="{%url 'movie:mypage' %}";
-                }
-            });
-        
-    });
-</script>
+                function (response_data) {
+                    console.log('response_data :', response_data);
+                    if (!response_data.success) {
+                        alert(response_data.error_msg + "(" + response_data.error_code + ")");
+                        location.href = '{% url "movie:board" %}';
+                    } else {
+                        // 결제 성공 시 서버로 정보 전송
+                        $.ajax({
+                            type: "POST",
+                            url: "{% url 'movie:kakaopay_success' %}",  // 실제 URL로 변경
+                            data: {
+                                csrfmiddlewaretoken: '{{ csrf_token }}',
+                                title: params.title,
+                                payMoney: params.payMoney,
+                                ticketNumber: params.ticketNumber,
+                                reserve_date: params.reserve_date,
+                                running_time:params.running_time,
+                                selectedSeat: params.selectedSeat,
+                                selectedTheater: params.selectedTheater,
+                                success: response_data.success  // 결제 성공 여부 전송
+                            },
+                            dataType: 'json', 
+                            success: function (response) {
+                                console.log('Payment success:', response);
+                                // 이후 필요한 동작 수행
+                                // 예를 들어, 페이지 이동 또는 다른 처리 등
+                                location.href = "{%url 'movie:mypage' %}";
+                            },
+                            error: function (error) {
+                                console.error('Payment error:', error);
+                                alert('오류');
+                                location.href = "{%url 'movie:board'}"
+                            }
+                        });
+                    }
+                });
+        });
+    </script>
 
-     
- 
+
+
 </body>
+
 </html>
 
 {% endblock %}

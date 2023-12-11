@@ -4,43 +4,187 @@
 
 {% block content %}
 
-<style>
-	.card {
-		padding: 10px;		
-	}
-
-	.card h3 {
-		font-family: none;
-	}
-</style>
 
 <html lang="en">
+    
 
 {% load static %}
+
+<style>
+    h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333; /* 폰트 색상 */
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+            margin-bottom: 20px; /* 제목과 다음 요소 간 간격 조절 */
+        }
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* 각 영화 요소 사이의 간격 조절 */
+            justify-content: space-around;
+            align-items: flex-start; /* 세로 정렬 기본값인 stretch 해제 */
+            min-height: 100vh;
+        }
+
+        .movie-item {
+            width: 25%; /* 한 줄에 5개씩 배치하려면 100%를 5등분한 값 */
+            box-sizing: border-box;
+            text-align: center;
+            margin: 1%;
+            padding: 15px; /* 내용과 테두리 간의 간격 */
+            border-radius: 10px; /* 둥근 테두리 */
+            background-color: #f7f7f7; /* 배경색 추가 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 5px;
+        }
+
+        .box-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .reserve-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: auto; /* 예매하기 버튼과 다음 요소 사이의 간격 조절 */
+        }
+        .rate, .opendate {
+            font-size: 16px;
+            color: #555; /* 폰트 색상 */
+        }
+        .title {
+            font-weight: bold; /* 제목을 두껍게 강조하는 스타일 */
+            margin: 10px 0; /* 제목과 다음 요소 간 간격 조절 */
+            font-size: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .rank{
+            font-size: 20px;
+            color: #ffffff; /* 폰트 색상 */
+            font-weight: bold;
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #080808; /* 배경색 추가 */
+            padding: 5px 10px; /* 내용과 테두리 간의 간격 조절 */
+            border-radius: 5px; /* 둥근 테두리 */
+            border: 2px solid #e89a09; /* 테두리 스타일 추가 */
+            margin-top: 5px;
+        }
+        .hr{
+            width: 100%;
+        }
+
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reset.css' %}">
     <style>
-        .seat {
-            width: 40px; /* 수정: 좌석의 너비를 40px로 변경 */
-            height: 40px; /* 수정: 좌석의 높이를 40px로 변경 */
+
+        .bg-video {
+            width: 100%;
+            overflow: hidden;
+            margin: 0px auto;
+            position: relative;
         }
+
+        .bg-video__content {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+
+        }
+
+        video {
+            width: 100%;
+        }
+
+
         
-        .clicked {
-            background-color: red;
-            color: white;
-        }
     </style>
 </head>
 
 <body>
-    
+    <div class="contents">
+        <div class="video_wrap">
+
+            <div class="bg-video">
+                <video autoplay="" muted="" id="hz" loop="">
+                    <source src="https://adimg.cgv.co.kr/images/202311/OurSeason/1207_Ourseason_1080x608_pc.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="button">
+                <button onclick="playHz()" type="button">Play Video</button>
+                <button onclick="pauseHz()" type="button">Pause Video</button>
+            </div>
+            
+                
+        </div>
+        
+    </div>
+    <hr>
+    <div class="movie-container">
+            {% for movie in movieinfo %}
+            
+                <div class="movie-item">
+                    <div class="box-image">
+                        
+                            <img src="{{movie.1}}" alt="{{movie.2}}"  width="100" >
+                        
+                    </div>
+                    <div class="rank">
+                        <p>{{movie.0}}</p>
+                    </div>
+                    <div class="title">
+                        <p>{{movie.2}}</p>
+                    </div>
+                    <div class="rate">
+                        <p>예매율: {{movie.3}}</p>
+
+                    </div>
+                    <div class="opendate">
+                        <p>개봉일: {{movie.4}}</p>
+                        <button class="reserve-button" onclick="location.href='http://127.0.0.1:8000/movie/board/'">예매하기</button>
+                    </div>
+                    
+                </div>
+                {% endfor %}
+        </div>
+        
+
 </body>
 <script>
+    const strArray = ['https://adimg.cgv.co.kr/images/202311/Dotty/1204_Dotty_1080x608_PC.mp4', 'https://adimg.cgv.co.kr/images/202311/Saw/1124_1080x608.mp4', 'https://adimg.cgv.co.kr/images/202311/OurSeason/1207_Ourseason_1080x608_pc.mp4'];
+    const randomValue = strArray[Math.floor(Math.random() * strArray.length)];
+    var hz = document.getElementById("hz");
+    hz.src = randomValue;
+    function playHz() {
+
+        hz.play();
+
+    }
+
+    function pauseHz() {
+
+        hz.pause();
+
+    } 
+
+    
 </script>
+
+
 
 </html>
 
-{% endblock  %}
+{% endblock %}

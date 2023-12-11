@@ -10,7 +10,10 @@ const inputReserveDate = document.querySelector('.reserveDate');
 const inputRunningTime = document.querySelector('.runningTime');
 const moveSeatForm = document.querySelector('.moveSeatForm');
 const moveSeatButton = document.querySelector('.moveSeatButton');
-
+const se_date = new Date(); // 현재 날짜를 가져옵니다.
+const se_year = date.getFullYear(); // 현재 연도를 가져옵니다.
+const se_month = date.getMonth() + 1; // 현재 월을 가져오고 1을 더합니다.
+const se_reserveDate = document.querySelector('.reserve-date');
 
 
 
@@ -64,6 +67,13 @@ function displayMovieTitles(data) {
             button.classList.add('movie-title-button');
             button.innerText = movie.title;
 
+            const maxLength = 14; // 디자인에 맞게 조절하세요
+            const truncatedTitle = movie.title.length > maxLength
+                ? movie.title.substring(0, maxLength - 3) + '...' // 생략 부호 추가
+                : movie.title;
+
+            button.innerText = truncatedTitle;
+
             buttonWrapper.appendChild(button);
             movieTitleWrapper.appendChild(buttonWrapper);
 
@@ -99,6 +109,12 @@ function displayMovieTitles(data) {
                     const button = document.createElement('button');
                     button.classList.add('movie-title-button');
                     button.innerText = movie.title;
+                    const maxLength = 14; // 디자인에 맞게 조절하세요
+                    const truncatedTitle = movie.title.length > maxLength
+                        ? movie.title.substring(0, maxLength - 3) + '...' // 생략 부호 추가
+                        : movie.title;
+
+                    button.innerText = truncatedTitle;
 
                     buttonWrapper.appendChild(button);
                     movieTitleWrapper.appendChild(buttonWrapper);
@@ -160,6 +176,7 @@ function setList(data) {
 
 
 function addDate() {
+    
     const weekOfDay = ['일', '월', '화', '수', '목', '금', '토'];
     const date = new Date(); // 현재 날짜를 가져옵니다.
     const year = date.getFullYear(); // 현재 연도를 가져옵니다.
@@ -200,7 +217,9 @@ function addDate() {
         reserveDate.append(button);
 
         dayClickEvent(button);
+        
     }
+    
 }
 
 
@@ -209,6 +228,7 @@ function addDate() {
 
 
 function dayClickEvent(button) {
+
     button.addEventListener('click', function() {
         const movieDateWrapperActive = document.querySelectorAll(
             '.movie-date-wrapper-active'
@@ -217,17 +237,12 @@ function dayClickEvent(button) {
             list.classList.remove('movie-date-wrapper-active');
         });
         button.classList.add('movie-date-wrapper-active');
-        console.log(button.childNodes[1].innerHTML);
-        inputReserveDate.value =
-            year +
-            '.' +
-            month +
-            '.' +
-            button.childNodes[1].innerHTML +
-            '(' +
-            button.childNodes[0].innerHTML +
-            ')';
-        console.log(inputReserveDate.value);
+        
+        
+        console.log(`${se_year}-${se_month}-${button.childNodes[1].innerHTML}(${button.childNodes[0].innerHTML})`);
+        
+        inputReserveDate.value = `${se_year}-${se_month}-${button.childNodes[1].innerHTML}(${button.childNodes[0].innerHTML})`;
+        
     });
 }
 
@@ -286,9 +301,7 @@ function sendForm(){
     var selectedTheater=document.querySelector('.theater-place:first-child').innerText;
     var reserveDate=document.querySelector('.movie-date-wrapper').value;
     var runningTime=document.querySelector('.runningTime').value;
-
     var form=document.querySelector('.movieSeatForm');
-
     form.querySelector('.title').value = title;
     form.querySelector('.selectedTheater').value = selectedTheater;
     form.querySelector('.movieDate').value = reserveDate;
@@ -296,3 +309,24 @@ function sendForm(){
 
     form.submit();
 }
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     var currentTime = getCurrentTime();
+//     var timeButtons = document.querySelectorAll('.reserve-time-button');
+
+//     timeButtons.forEach(function (button) {
+//         var selectedTime = parseInt(button.dataset.time, 10);
+
+//         // 선택된 시간이 현재 시간 이전이면 버튼을 숨김
+//         if (selectedTime < currentTime) {
+//             button.style.display = 'none';
+//         }
+//     });
+// });
+
+// function getCurrentTime() {
+//     var now = new Date();
+//     var hours = now.getHours();
+//     var minutes = now.getMinutes();
+//     return hours * 60 + minutes;  // 분 단위로 변환
+// }

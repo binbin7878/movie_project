@@ -1,271 +1,281 @@
 {% extends 'base.html' %}
 
-{% block title %}Index page{% endblock %}
+{% block title %}Movie Board{% endblock %}
 
 {% block content %}
 <html lang="en">
 {% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reset.css'%}">
-    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\main.css'%}">
+
+    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reset.css' %}">
     <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\header.css' %}">
+    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reserve.css' %}">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' />
     <script src='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js'></script>
-    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\material-design-iconic-font\css\material-design-iconic-font.min.css' %}">
+    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\material-design-iconic-font\css\material-design-iconic-font.css' %}">
     <style>
-    * {
-    font-size: 11px;
-}
+        * {
+            font-size: 11px;
+        }
 
-body {
-    background-color: #FDFCF0;
-}
-
-
-/* header */
-
-.header-nav-wrapper {
-    background: url(../images/bg_header.gif) repeat-x 0 0;
-    background-position: center;
-    background-size: contain;
-    height: 120px;
-    padding-top: 4px;
-}
-
-.header-nav-container {
-    position: fixed;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 40px;
-    padding-right: 150px;
-}
-
-.header-inner {
-    display: flex;
-}
-
-.header-inner>div {
-    border-right: 1px solid #DDDDDD;
-    margin-left: 8px;
-    padding-right: 4px;
-}
+        body {
+            background-color: #FDFCF0;
+        }
 
 
-/* //header */
+        /* header */
+
+        .header-nav-wrapper {
+            background: url(../images/bg_header.gif) repeat-x 0 0;
+            background-position: center;
+            background-size: contain;
+            height: 120px;
+            padding-top: 4px;
+        }
+
+        .header-nav-container {
+            position: fixed;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 40px;
+            padding-right: 150px;
+        }
+
+        .header-inner {
+            display: flex;
+        }
+
+        .header-inner>div {
+            border-right: 1px solid #DDDDDD;
+            margin-left: 8px;
+            padding-right: 4px;
+        }
 
 
-/* nav */
+        /* //header */
 
-.nav-line {
-    background-color: red;
-    border-radius: 50px;
-    height: 5px;
-    /* background-image: linear-gradient(to right, white 33%, rgba(255, 255, 255, 0) 0%);
+
+        /* nav */
+
+        .nav-line {
+            background-color: red;
+            border-radius: 50px;
+            height: 5px;
+            /* background-image: linear-gradient(to right, white 33%, rgba(255, 255, 255, 0) 0%);
   background-position: bottom;
   background-size: 15px 1px;
   background-repeat: repeat-x; */
-}
+        }
 
-.nav-wrapper {
-    /* background: url(../images/bg_header.gif) repeat-x 0 0; */
-    /* width: 100%;*/
-    height: 94px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+        .nav-wrapper {
+            /* background: url(../images/bg_header.gif) repeat-x 0 0; */
+            /* width: 100%;*/
+            height: 94px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-.nav-content {
-    padding-top: 15px;
-}
+        .nav-content {
+            padding-top: 15px;
+        }
 
-.movieLogo-wrapper {
-    text-align: center;
-}
+        .movieLogo-wrapper {
+            text-align: center;
+        }
 
-.cgvLogo {
-    width: 120px;
-    margin-left: 150px;
-    /* margin-right: -40px; */
-}
+        .cgvLogo {
+            width: 120px;
+            margin-left: 150px;
+            /* margin-right: -40px; */
+        }
 
-.cgvMovie {
-    width: auto;
-    height: 28px;
-}
+        .cgvMovie {
+            width: auto;
+            height: 28px;
+        }
 
-.nav-inner {
-    display: flex;
-    /* margin-left: -250px; */
-    margin-left: 150px;
-    margin-right: auto;
-    align-items: center;
-    padding-bottom: 15px;
-}
+        .nav-inner {
+            display: flex;
+            /* margin-left: -250px; */
+            margin-left: 150px;
+            margin-right: auto;
+            align-items: center;
+            padding-bottom: 15px;
+        }
 
-.nav-inner>div>button {
-    padding-top: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    margin-left: 15px;
-}
+        .nav-inner>div>button {
+            padding-top: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
 
-.search-wrapper {
-    margin-left: 70px;
-    height: 20px;
-}
+        .search-wrapper {
+            margin-left: 70px;
+            height: 20px;
+        }
 
-.search-wrapper>input {
-    width: 100px;
-    height: 20px;
-}
+        .search-wrapper>input {
+            width: 100px;
+            height: 20px;
+        }
 
-.searchButton {
-    margin: 0 !important;
-    padding: 2px !important;
-    background-color: red;
-    color: white;
-    width: 30px;
-    height: 100%;
-    font-size: 10px !important;
-}
+        .searchButton {
+            margin: 0 !important;
+            padding: 2px !important;
+            background-color: red;
+            color: white;
+            width: 30px;
+            height: 100%;
+            font-size: 10px !important;
+        }
 
 
-/* content */
+        /* content */
 
-.reserve-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    height: 800px;
-    /* border: 1px solid #dddddd; */
-}
+        .reserve-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            height: 800px;
+            width: 80%; /* 예시로 80%로 조절 */
+            margin: 0 auto;
+            /* border: 1px solid #dddddd; */
+        }
 
-.reserve-container>div {
-    border: 1px solid #dddddd;
-}
+        .reserve-container>div {
+            border: 1px solid #dddddd;
+            
+        }
 
-.reserve-title {
-    border-bottom: 1px solid #dddddd;
-    background-color: #444444;
-    text-align: center;
-    color: #dddddd;
-    padding: 5px;
-    font-size: 13px;
-    font-weight: bold;
-}
+        .reserve-title {
+            border-bottom: 1px solid #dddddd;
+            background-color: #444444;
+            text-align: center;
+            color: #dddddd;
+            padding: 5px;
+            font-size: 13px;
+            font-weight: bold;
+        }
 
-.movie-part {
-    width: 284px;
-}
+        .movie-part {
+            width: 284px;
+        }
 
-.theater-part {
-    width: 264px;
-}
+        .theater-part {
+            width: 264px;
+        }
 
-.day-part {
-    width: 91px;
-}
+        .day-part {
+            width: 91px;
+        }
 
-.time-part {
-    width: 384px;
-}
+        .time-part {
+            width: 384px;
+        }
 
-.sort-wrapper {
-    margin: 10px 6px 6px 10px;
-    /* padding: 3px; */
-    display: flex;
-    border-bottom: 1px solid #dddddd;
-    font-size: 12px;
-}
+        .sort-wrapper {
+            margin: 10px 6px 6px 10px;
+            /* padding: 3px; */
+            display: flex;
+            border-bottom: 1px solid #dddddd;
+            font-size: 12px;
+        }
 
-.sort-wrapper>div {
-    padding: 3px;
-}
+        .sort-wrapper>div {
+            padding: 3px;
+        }
 
-.sort-wrapper>div:hover {
-    border-bottom: 1px solid #111111;
-}
+        .sort-wrapper>div:hover {
+            border-bottom: 1px solid #111111;
+        }
 
-.sort-selected {
-    font-weight: bold;
-    border-bottom: 1px solid #111111;
-}
+        .sort-selected {
+            font-weight: bold;
+            border-bottom: 1px solid #111111;
+        }
 
-.sort-korean {
-    margin-left: 6px;
-}
+        .sort-korean {
+            margin-left: 6px;
+        }
 
-.reserve-date {
-    padding-top: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 770px;
-    overflow: scroll;
-    overflow-x: hidden;
-}
+        .reserve-date {
+            padding-top: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 770px;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
 
-.movie-date-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 2px;
-}
+        .movie-date-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 2px;
+        }
 
-.movie-week-of-day {
-    margin-left: 5px;
-    font-size: 10px;
-    width: 12px;
-    height: 22px;
-    line-height: 22px;
-}
+        .movie-week-of-day {
+            margin-left: 5px;
+            font-size: 10px;
+            width: 12px;
+            height: 22px;
+            line-height: 22px;
+        }
 
-.movie-day {
-    text-align: center;
-    width: 34px;
-    height: 22px;
-    font-size: 17px;
-    font-weight: bold;
-}
+        .movie-day {
+            text-align: center;
+            width: 34px;
+            height: 22px;
+            font-size: 17px;
+            font-weight: bold;
+        }
 
-.saturday {
-    color: #31597E;
-    font-weight: bold;
-}
+        .saturday {
+            color: #31597E;
+            font-weight: bold;
+        }
 
-.sunday {
-    color: #AF2D2D;
-    font-weight: bold;
-}
-.movie-list {
-    display: flex;
-    flex-wrap: wrap; /* 필요한 경우에만 줄 바꿈이 일어나도록 설정 */
-}
+        .sunday {
+            color: #AF2D2D;
+            font-weight: bold;
+        }
 
-.movie-list > div {
-    display: inline-block; /* 인라인 블록으로 설정하여 가로로 배열 */
-    white-space: nowrap;   /* 줄 바꿈 방지 */
-    overflow: hidden;      /* 내용이 넘칠 경우 숨김 처리 */
-    text-overflow: ellipsis; /* 넘칠 경우 생략 부호(...) 표시 */
-    margin: 5px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    /* 추가적인 스타일을 적용하고 싶다면 여기에 추가하세요. */
-}
+        .movie-list {
+            display: flex;
+            flex-wrap: wrap;
+            /* 필요한 경우에만 줄 바꿈이 일어나도록 설정 */
+        }
 
+        .movie-list>div {
+            display: inline-block;
+            /* 인라인 블록으로 설정하여 가로로 배열 */
+            white-space: nowrap;
+            /* 줄 바꿈 방지 */
+            overflow: hidden;
+            /* 내용이 넘칠 경우 숨김 처리 */
+            text-overflow: ellipsis;
+            /* 넘칠 경우 생략 부호(...) 표시 */
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            /* 추가적인 스타일을 적용하고 싶다면 여기에 추가하세요. */
+        }
     </style>
 </head>
 
 <body>
-    
+
     <div class="reserve-container">
         <div class="movie-part">
             <div class="reserve-title">영화</div>
@@ -273,11 +283,8 @@ body {
                 <div class="sort-rate sort-selected">예매율순</div>
                 <div class="sort-korean">가나다순</div>
             </div>
-             <div class="movie-list-title-wrapper">
+            <div class="movie-list-title-wrapper">
                 <div class="movie-list">
-                    
-                    
-                    
                 </div>
             </div>
         </div>
@@ -325,46 +332,68 @@ body {
             <div class="reserve-time">
                 <div class="reserve-where">4관(Laser) 6층(총 120석) </div>
                 <div class="reserve-time-wrapper">
+                    <button class="reserve-time-button"  >
+                        <span class="reserve-time-want">12:20</span>
+                        <span class="reserve-time-remain">120석</span>
+                    </button>
+                    <button class="reserve-time-button" >
+                        <span class="reserve-time-want" >14:20</span>
+                        <span class="reserve-time-remain">120석</span>
+                    </button>
                     <button class="reserve-time-button">
-            <span class="reserve-time-want">12:20</span>
-            <span class="reserve-time-remain">120석</span>
-          </button>
+                        <span class="reserve-time-want" >16:20</span>
+                        <span class="reserve-time-remain">120석</span>
+                    </button>
                     <button class="reserve-time-button">
-            <span class="reserve-time-want">14:20</span>
-            <span class="reserve-time-remain">120석</span>
-          </button>
-                    <button class="reserve-time-button">
-            <span class="reserve-time-want">16:20</span>
-            <span class="reserve-time-remain">120석</span>
-          </button>
-                    <button class="reserve-time-button">
-            <span class="reserve-time-want">18:20</span>
-            <span class="reserve-time-remain">120석</span>
-          </button>
+                        <span class="reserve-time-want" >18:20</span>
+                        <span class="reserve-time-remain">120석</span>
+                    </button>
 
                 </div>
             </div>
             <div>
-            <form class="moveSeatForm" action='\movie\reserve\' method="POST">
-                {% csrf_token %}
-            <input type="hidden" class="title" name="title">
-            
-            <input type="hidden" class="selectedTheater" name="selectedTheater">
-            <input type="hidden" class="reserveDate" name="movieDate">
-            <input type="hidden" class="runningTime" name="runningTime">
-            <button class="moveSeatButton" type="button" onclick="sendForm()">예약하기</button>
-            </form>
+                <form class="moveSeatForm" action='\movie\reserve\' method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" class="title" name="title">
+
+                    <input type="hidden" class="selectedTheater" name="selectedTheater">
+                    <input type="hidden" class="reserveDate" name="movieDate">
+                    <input type="hidden" class="runningTime" name="runningTime">
+                    <button class="moveSeatButton" type="button" onclick="sendForm()">예약하기</button>
+                </form>
             </div>
         </div>
 
     </div>
-	<script src="{% static 'C:\movieproject-main\myProject\movie\static\movie\js\reserve.js' %}">
-        
-        
+    <script src="{% static 'C:\movieproject-main\myProject\movie\static\movie\js\reserve.js' %}">
 
 
-	</script>
-	
-    
+
+
+    </script>
+<script>
+    function getCurrentTime() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        return hours * 60 + minutes;  // 분 단위로 변환
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var currentTime = getCurrentTime();
+        var timeButtons = document.querySelectorAll('.reserve-time-button');
+
+        timeButtons.forEach(function (button) {
+            var selectedTime = parseInt(button.dataset.time, 10);
+
+            // 선택된 시간이 현재 시간 이전이면 버튼을 숨김
+            if (selectedTime < currentTime) {
+                button.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+
 </body>
-{% endblock  %}
+{% endblock %}

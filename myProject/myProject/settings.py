@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
     'django_extensions',
+    'six',
 
     #allauth
     'allauth',
@@ -135,6 +136,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 SITE_ID=1
 
 AUTHENTICATION_BACKENDS = (
@@ -159,3 +161,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DATE_INPUT_FORMATS = ['%y-%m-%d']
 
 APPEND_SLASH=False
+
+EMAIL_BACKEND       = my_settings.EMAIL['EMAIL_BACKEND']
+EMAIL_USE_TLS       = my_settings.EMAIL['EMAIL_USE_TLS']      
+EMAIL_PORT          = my_settings.EMAIL['EMAIL_PORT']                
+EMAIL_HOST          = my_settings.EMAIL['EMAIL_HOST']
+EMAIL_HOST_USER     = my_settings.EMAIL['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']
+SERVER_EMAIL        = my_settings.EMAIL['SERVER_EMAIL']
+ACCOUNT_EMAIL_SUBJECT_PREFIX=my_settings.EMAIL['ACCOUNT_EMAIL_SUBJECT_PREFIX']
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

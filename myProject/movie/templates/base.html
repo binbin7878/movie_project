@@ -15,7 +15,7 @@
 
         body {
             margin: 0px;
-            background-color: #F0EDCC;
+            background-color: rgb(245, 245, 228);
         }
 
     </style>
@@ -74,7 +74,7 @@
                     <li class="nav-item">
                         {% if user.is_active %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'movie:mypage' %}">{{user.username}}</a>
+                            <a class="nav-link" href="{% url 'movie:mypage' %}">{{user.username}}{{user.profile_image}}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'movie:signout' %}">logout</a>

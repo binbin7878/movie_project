@@ -122,10 +122,12 @@ body {
 /* content */
 
 .reserve-container {
-    margin-top: 140px;
+    
     display: flex;
     justify-content: center;
     height: 800px;
+    width: 100%; /* 또는 다른 값을 사용하셔도 됩니다. */
+    
     /* border: 1px solid #dddddd; */
 }
 
@@ -327,6 +329,7 @@ body {
     margin-top: 10px;
 }
 .movie-title-button-active {
+    
     background-color: #333333; /* 원하는 배경색으로 변경하세요 */
     color: white; /* 텍스트 색상을 원하는 색상으로 변경하세요 */
   }
@@ -376,11 +379,23 @@ body {
 .movie-list-title {
     padding: 6px 4px;
     margin-left: 5px;
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: bold;
     display: flex;
     align-items: center;
     margin-top: 10px;
+    
 }
+.movie-list-title-wrapper{
+    padding-right: 2px;
+    margin-top: 2px;
+    height: 720px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    overflow-x: hidden;
+} 
 
 .movie-list-title-active {
     background-color: #333333;

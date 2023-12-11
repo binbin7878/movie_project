@@ -7,45 +7,45 @@
 <html lang="en">
 
 {% load static %}
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reset.css' %}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\reset.css' %}">
 	<link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\header.css' %}">
 	<link rel="stylesheet" href="{%static 'C:\movieproject-main\myProject\movie\static\movie\css\seat.css' %}">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<link rel='stylesheet'
-		href='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' />
-	<script
-	src='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' />
+	<script src='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js'></script>
 	<link rel="stylesheet"
 		href="{%static 'C:\movieproject-main\myProject\movie\static\movie\material-design-iconic-font\css\material-design-iconic-font.min.css' %}">
 	<style>
-        .seat {
-            width: 40px; /* 수정: 좌석의 너비를 40px로 변경 */
-            height: 40px; /* 수정: 좌석의 높이를 40px로 변경 */
-        }
-        
-        .clicked {
-            background-color: red;
-            color: white;
-        }
-    </style>
+		.seat {
+			width: 40px;
+			/* 수정: 좌석의 너비를 40px로 변경 */
+			height: 40px;
+			/* 수정: 좌석의 높이를 40px로 변경 */
+		}
+
+		.clicked {
+			background-color: red;
+			color: white;
+		}
+	</style>
 </head>
 
 <body>
 	{% if user.is_authenticated %}
-		
+
 	{% else %}
 	<script type="text/javascript">
-		
 		alert("로그인이 필요한 작업입니다 로그인을 진행해 주세요!");
 		window.location.href = "{% url 'movie:signin' %}";
 	</script>
 	{% endif %}
-	
-    <div class="select-container">
+
+	<div class="select-container">
 		<div class="select-wrapper">
 			<div class="select-title">인원/좌석</div>
 			<div class="select-seat-container">
@@ -107,15 +107,14 @@
 					</div>
 				</div>
 				<div class="select-seat-information">
-					
+
 					<div class="selected-movie">{{ title }}</div>
 					<div class="select-seat-information-wrapper">
 						<div class="select-theater-place selected-theater-place-info">{{selected_theater}}</div>
 						<div class="select-theater-place selected-theater-place-info">3관
 							8층</div>
 						<div class="select-theater-place">
-							<span>남은좌석</span><span class="remain-seats">152</span>/<span
-								class="all-seats">172</span>
+							<span>남은좌석</span><span class="remain-seats">152</span>/<span class="all-seats">172</span>
 						</div>
 
 					</div>
@@ -124,19 +123,19 @@
 						<div class="theater-time">{{running_time}}</div>
 					</div>
 					<div class="selected-seats-wrapper">
-						<span class="selected-seats-title">좌석번호</span> <span
-							class="selected-seats">선택한 좌석이 없습니다.</span>
+						<span class="selected-seats-title">좌석번호</span> <span class="selected-seats">선택한 좌석이 없습니다.</span>
 					</div>
 					<div class="ticket-price-wrapper">
 						<div class="ticket-price-title">가격</div>
 						<div class="ticket-price">0원</div>
 					</div>
-					<form action="{% url 'movie:kakaopay'%}" class="seatForm" method="post" id="seatForm" onclick="prepareAndSubmitForm()">
+					<form action="{% url 'movie:kakaopay'%}" class="seatForm" method="post" id="seatForm"
+						onclick="prepareAndSubmitForm()">
 						{% csrf_token %}
-						<input type="hidden" class="title" name="title"> 
+						<input type="hidden" class="title" name="title">
 						<input type="hidden" class="selectedTheater" name="selectedTheater">
 						<input type="hidden" class="reserveDate" name="movieDate">
-						<input type="hidden" class="runningTime" name="runningTime">							
+						<input type="hidden" class="runningTime" name="runningTime">
 						<!-- 티켓의수(선택한 좌석) -->
 						<input type="hidden" class="ticketNumber" name="ticketNumber">
 						<input type="hidden" class="selectedSeat" name="selectedSeat">
@@ -144,7 +143,8 @@
 						<input type="hidden" class="payMoney" name="payMoney">
 						{% csrf_token %}
 						<button type="button" class="reserve-button" id="reserve-button">
-							결제하기<img src="{%static 'C:\movieproject-main\myProject\movie\static\movie\images\payment_icon_yellow_medium.png' %}">
+							결제하기<img
+								src="{%static 'C:\movieproject-main\myProject\movie\static\movie\images\payment_icon_yellow_medium.png' %}">
 						</button>
 					</form>
 				</div>
@@ -164,19 +164,49 @@
 
 <script src="{%static 'C:\movieproject-main\myProject\movie\static\movie\js\seat.js' %}"></script>
 <script>
-    function prepareAndSubmitForm() {
-        var form = document.getElementById('seatForm');
-        // form 내의 필드들의 값을 설정
-        form.elements['title'].value = title;
-        form.elements['selectedTheater'].value = selectedTheater;
-        form.elements['movieDate'].value = movieDate;
-        form.elements['runningTime'].value = runningTime;
-        form.elements['ticketNumber'].value = ticketNumber;
-        form.elements['selectedSeat'].value = selectedSeat;
-        form.elements['payMoney'].value = payMoney;
-        // form을 전송
-        form.submit();
+	function prepareAndSubmitForm() {
+		var form = document.getElementById('seatForm');
+		// form 내의 필드들의 값을 설정
+		form.elements['title'].value = title;
+		form.elements['selectedTheater'].value = selectedTheater;
+		form.elements['movieDate'].value = movieDate;
+		form.elements['runningTime'].value = runningTime;
+		form.elements['ticketNumber'].value = ticketNumber;
+		form.elements['selectedSeat'].value = selectedSeat;
+		form.elements['payMoney'].value = payMoney;
+
+		checkDuplicateReservation(form);
+		// form을 전송
+		// form.submit();
+	}
+	function checkDuplicateReservation(form) {
+        // AJAX를 이용한 비동기 요청
+        $.ajax({
+            type: 'POST',
+            url: '{% url "movie:make_reserve" %}',  // 위에서 추가한 URL 패턴에 맞게 수정
+            data: $(form).serialize(),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},  // CSRF 토큰 추가
+            success: function (data) {
+                console.log('서버 응답:', data);
+
+                if (data.duplicate) {
+                    alert('이미 예약된 좌석이 포함되어 있습니다.');
+                } else {
+                    // 중복이 아니라면 form을 전송
+                    form.submit();
+                }
+            },
+            error: function (xhr) {
+                console.error('서버 에러:', xhr);
+                alert('예약 여부 확인 중 오류가 발생했습니다.');
+            }
+        });
     }
+	// var reservedSeatsJson = "{{ reserved_seats_json|safe }}";
+
+	// // JavaScript에서 reservedSeatsJson 변수를 사용할 수 있습니다.
+	// console.log(reservedSeatsJson);
+
 </script>
 
 
@@ -184,4 +214,4 @@
 
 </html>
 
-{% endblock  %}
+{% endblock %}

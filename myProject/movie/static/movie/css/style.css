@@ -1,12 +1,7 @@
-@font-face {
-    font-family: 'Poppins-Regular';
-    src: url('../fonts/poppins/Poppins-Regular.ttf');
-}
 
-@font-face {
-    font-family: 'Poppins-SemiBold';
-    src: url('../fonts/poppins/Poppins-SemiBold.ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&family=Poppins&display=swap');
+
+
 
 * {
     -webkit-box-sizing: border-box;

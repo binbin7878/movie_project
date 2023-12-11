@@ -1,4 +1,9 @@
 /* content */
+body {
+    background-image: url('/static/movie/images/bgg.jpg');
+    /* 배경 이미지의 경로를 정확하게 지정해야 합니다. */
+    /* /static/는 Django의 STATIC_URL에 해당하는 경로입니다. */
+  }
 
 .select-container {
     margin-top: 140px;

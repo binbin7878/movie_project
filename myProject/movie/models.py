@@ -4,6 +4,7 @@ from betterforms.multiform import MultiModelForm
 from django import forms
 import MySQLdb
 
+
 class Profile(models.Model):
     class Meta:
         verbose_name = 'Profile'
@@ -13,7 +14,9 @@ class Profile(models.Model):
     nick = models.CharField(verbose_name='NickName', max_length=50, blank=True,)
     intro = models.TextField(blank=True, max_length=200, )
     profile_image = models.ImageField(blank=True, upload_to='usr')
-
+    email=models.EmailField(max_length=200,default=None, null=True)
+    is_active=models.BooleanField(default=False)
+    
 
     def __str__(self):
         return self.nick
@@ -47,6 +50,17 @@ class MovieReserve(models.Model):
     payMoney=models.CharField(max_length=100,default='')
     running_time=models.CharField(max_length=10,default=None,null=True)
     
+    @classmethod
+    def get_reserved_seats(cls, title, selected_theater, movie_date, running_time):
+        # 해당 영화, 상영관, 예약일자, 상영시간에 대한 예약된 좌석을 가져오는 메서드
+        reserved_seats = cls.objects.filter(
+            title=title,
+            selected_theater=selected_theater,
+            movie_date=movie_date,
+            running_time=running_time,
+        ).values_list('selected_seat', flat=True)
+
+        return reserved_seats
     
 
 

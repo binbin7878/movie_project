@@ -47,6 +47,10 @@ const runningTime = document.querySelector('.runningTime');
 const ticketNumber = document.querySelector('.ticketNumber');
 const selectedSeat = document.querySelector('.selectedSeat');
 
+var reservedSeatsJson = "{{ reserved_seats_json|safe }}";
+
+
+
 toastr.options = {
     positionClass: 'toast-top-full-width',
     progressBar: true,
@@ -134,6 +138,7 @@ function selectListUiFunction(selectSeatListUlActive) {
 
         // allNumber = normalNumber + teenNumber + oldNumber;
         // allMoney = normalMoney + teenMoney + oldMoney;
+        
         console.log(allNumber + '뭥미');
         ticketPrice.innerHTML = allMoney + '원';
 
@@ -324,3 +329,6 @@ function sendPay(){
 
     form.submit();
 }
+
+
+
